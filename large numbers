@@ -1,0 +1,100 @@
+const
+  n = 17;
+  k = 10;
+
+type
+  TMAS1 = array [1 .. n] of integer;
+  TMAS2 = array [1 .. k] of integer;
+  TMAS3 = array [1 .. n] of integer;
+
+var
+  MAS1: TMAS1;
+  MAS2: TMAS2;
+  MAS3: TMAS3;
+  MAS4: TMAS3;
+  i, m, l, x, y, p, znach, ostatok, chislo1, chislo2, lengthMAS2, razn,
+    zapolnenieMAS2, schetchik: integer;
+  allZeros: boolean;
+  s: string;
+
+begin
+  zapolnenieMAS2 := n - k;
+  allZeros := True;
+
+  writeln('Введите делимое:');
+  readln(s);
+
+  for i := 1 to Length(s) do
+  begin
+    MAS1[i] := Ord(s[i]) - Ord('0');
+  end;
+
+  writeln('Введите делитель:');
+  readln(s);
+  for i := 1 to Length(s) do
+  begin
+    MAS2[i] := Ord(s[i]) - Ord('0');
+  end;
+
+  write('Делимое = ');
+  for i := 1 to n do
+  begin
+    write(MAS1[i]);
+  end;
+  writeln;
+
+  write('Делитель = ');
+  for i := 1 to k do
+  begin
+    write(MAS2[i]);
+  end;
+  writeln;
+
+  schetchik := 0;
+  writeln(schetchik);
+
+  repeat
+    allZeros := True;
+    lengthMAS2 := Length(MAS2);
+    m := 0;
+    for i := lengthMAS2 downto 1 do
+    begin
+      if MAS1[n - m] < MAS2[k - m] then
+      begin
+        MAS1[n - m - 1] := MAS1[n - m - 1] - 1;
+        MAS1[n - m] := MAS1[n - m] + 10;
+        razn := MAS1[n - m] - MAS2[k - m];
+      end
+      else
+      begin
+        razn := MAS1[n - m] - MAS2[k - m];
+      end;
+      MAS3[n - m] := razn;
+      for l := n - m downto 1 do
+      begin
+        MAS1[n - m] := MAS3[n - m];
+      end;
+      for l := n downto 1 do
+      begin
+        if MAS1[l] < 0 then
+        begin
+          MAS1[l] := 9;
+          MAS1[l - 1] := MAS1[l - 1] - 1;
+        end;
+      end;
+      m := m + 1;
+    end;
+    for i := 1 to n do
+    begin
+      if MAS1[i] <> 0 then
+      begin
+        allZeros := False;
+      end;
+    end;
+    schetchik := schetchik + 1;
+    writeln(schetchik);
+  until allZeros;
+
+  writeln('Частное = ', schetchik);
+  readln;
+end.
